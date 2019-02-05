@@ -2,21 +2,21 @@
 A pretty simple file renamer for Linux.
 
 I wanted to write a simple file renamer extension for Nemo (similar to Dolphin's) but end up writing a standalone application in Python.
+This app is supposed to be pretty simple, so it does not have many features. If you are a power user, I suggest you more powerfull applications such as Inviska, Gprename or Krename.
 
-You will be able:
-- Rename different files in different directories
-- Choose an initial sequence number
-- Add/remove files to rename
+What does:
+- Rename different files in different directories. It does preserve file extensions.
+- Choose an initial sequence number.
+- Add/remove files to rename.
 
-It will:
-- Preserve file extensions
-- Add sequence to the renamed files following the given order in the listbox.
-
-It won't:
+It doesn't:
 - use regular expressions. 
-- add datea
-This app is supposed to be pretty simple. Use gprename instead.
+- add dates.
 
-Todo:
-- Ability to choose postfix/sufix
-- Possibility to use letters insted of numbers
+To-do (near future):
+- Postfix/sufix sequence option.
+- Possibility to use letters insted of numbers.
+- Uppercase/Lowecase
+
+Wishlist:
+- Drag & Drop
