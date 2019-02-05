@@ -20,3 +20,5 @@ To-do (near future):
 
 Wishlist:
 - Drag & Drop
+
+<img src="https://github.com/akanashiro/psimplerenamer/blob/master/psimplerenamer.png">
