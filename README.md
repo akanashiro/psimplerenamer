@@ -13,6 +13,8 @@ It doesn't:
 - use regular expressions. 
 - add dates.
 
+In progress now: Qt rewrite.
+
 To-do (near future):
 - Postfix/sufix sequence option.
 - Possibility to use letters insted of numbers.
