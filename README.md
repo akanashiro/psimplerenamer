@@ -25,5 +25,8 @@ To-do (next releases):
 Wishlist:
 - Drag & Drop
 
+<img src="explanation.png">
+<img src="result.png">
+
 PS: there's a binary at "psimplerenamer/pyQT version/dist/"
 
