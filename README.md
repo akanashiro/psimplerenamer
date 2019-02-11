@@ -25,6 +25,10 @@ To-do (next releases):
 Wishlist:
 - Drag & Drop
 
+How to use it:
+- If you have pyQT5 installed: download all the files from "src" and run "./psimplerenamer.py"
+- If you want to run the blob: download the binary files from "binary" and run "psimplerenamer""
+
 <img src="explanation.png">
 <img src="result.png">
 
