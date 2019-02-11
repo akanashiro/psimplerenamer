@@ -17,8 +17,6 @@ What does:
 It doesn't:
 - use regular expressions. 
 
-In progress now: Qt rewrite using box layouts.
-
 To-do (next releases):
 - Possibility to use letters insted of numbers.
 - Uppercase/Lowecase.
@@ -27,4 +25,5 @@ To-do (next releases):
 Wishlist:
 - Drag & Drop
 
-<img src="https://github.com/akanashiro/psimplerenamer/blob/master/psimplerenamer.png">
+PS: there's a binary at "psimplerenamer/pyQT version/dist/"
+
