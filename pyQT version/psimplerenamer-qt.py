@@ -109,7 +109,7 @@ class Ui_MainWindow(object):
         self.btnClean.setObjectName("btnClean")
         self.btnClean.setMaximumWidth(34)        
         self.btnClean.setIcon(QtGui.QIcon("icons/edit-delete.svg"))
-        self.btnClean.setToolTip("Eliminar selección")     
+        self.btnClean.setToolTip("Eliminar todos")     
         
         # Nuevo Nombre
         self.nuevoNombre = QtWidgets.QLineEdit(self.centralwidget)
@@ -375,15 +375,18 @@ class SimpleRenamer(QtWidgets.QMainWindow):
         
     # Quitar archivos
     def removeFiles(self):
+        global intSequence
         indexes = self.ui.listaArchivos.selectionModel().selectedRows()
         for index in sorted(indexes):
             self.ui.listaArchivos.removeRow(index.row())
         self.synchNumbers()
+        intSequence = intSequence - 1
  
     # Limpia la tabla
     def cleanList(self):
+        global intSequence        
         self.ui.listaArchivos.selectionModel().model().removeRows(0, self.ui.listaArchivos.rowCount())
-
+        intSequence = self.ui.spinSequence.value()
         
     # Renombra físicamente los archivos
     def applyRenaming(self):
@@ -400,7 +403,7 @@ class SimpleRenamer(QtWidgets.QMainWindow):
             
             print (src + " >>> " + dst)
 
-            #os.rename(src,dst)
+            os.rename(src,dst)
         print ("Renombrado finalizado")
         self.cleanList()
 
