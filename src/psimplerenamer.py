@@ -14,154 +14,136 @@ import sys
 
 from PyQt5 import Qt, QtCore, QtGui, QtWidgets
 from PyQt5.QtCore import *
-#from PyQt5.QtCore import QDir, QUrl, QFileInfo
-from PyQt5.QtWidgets import (QWidget, QPushButton, QLabel, QLineEdit, QComboBox, QSpinBox, QApplication, QFileDialog, QGridLayout , QHeaderView, QHBoxLayout, QVBoxLayout, QDesktopWidget)
-
-
+# from PyQt5.QtCore import QDir, QUrl, QFileInfo
+from PyQt5.QtWidgets import (QWidget, QPushButton, QLabel, QLineEdit, QComboBox, QSpinBox,
+                             QApplication, QFileDialog, QGridLayout, QHeaderView, QHBoxLayout, QVBoxLayout, QDesktopWidget)
 
 
 class Ui_MainWindow(object):
-    
+
     def setupUi(self, MainWindow):
         MainWindow.setObjectName("MainWindow")
-        MainWindow.setWindowFlags(Qt.WindowMaximizeButtonHint|Qt.WindowCloseButtonHint)
-        MainWindow.setFixedSize(750,400)
-        
+        MainWindow.setWindowFlags(Qt.WindowMaximizeButtonHint | Qt.WindowCloseButtonHint)
+        MainWindow.setFixedSize(750, 400)
+
         self.centralwidget = QtWidgets.QWidget(MainWindow)
         self.centralwidget.setObjectName("centralwidget")
         self.gridLayoutWidget = QtWidgets.QWidget(self.centralwidget)
-        
-        #self.grid_layout = QtWidgets.QGridLayout(self.centralwidget)         # Create QGridLayout
-        #self.centralwidget.setLayout(self.grid_layout)   # Set this layout in central widget        
-    
-               
-        # Definición de Tabla de Archivos
-        self.listaArchivos = QtWidgets.QTableWidget(self.centralwidget)
-        self.listaArchivos.setEditTriggers(QtWidgets.QAbstractItemView.NoEditTriggers)
-        #self.listaArchivos.setGeometry(QtCore.QRect(30, 60, 500, 191))
-        self.listaArchivos.setMaximumSize(QtCore.QSize(700, 16777215))
-        self.listaArchivos.setSelectionBehavior(QtWidgets.QTableView.SelectRows)
-        #self.listaArchivos.setSelectionMode(QtWidgets.QAbstractItemView.SingleSelection)
-        self.listaArchivos.setGridStyle(QtCore.Qt.DotLine)
-        self.listaArchivos.setWordWrap(True)
-        self.listaArchivos.setCornerButtonEnabled(True)
-        #self.listaArchivos.setRowCount(7)
-        self.listaArchivos.setColumnCount(3)
-        self.listaArchivos.setObjectName("listaArchivos")
-        self.listaArchivos.setMouseTracking(True)
-        
-       
-        # Columna Ruta Resumida
-        item = QtWidgets.QTableWidgetItem()
-        self.listaArchivos.setHorizontalHeaderItem(0, item)
-        self.listaArchivos.setColumnWidth(0,110)
-        
-        # Columna Archivo
-        item = QtWidgets.QTableWidgetItem()
-        self.listaArchivos.setHorizontalHeaderItem(1, item)
-        #self.listaArchivos.setColumnWidth(1,120)
-        self.listaArchivos.horizontalHeader().setSectionResizeMode(1, QHeaderView.Stretch)
-        
-        # Columna Resultado
-        item = QtWidgets.QTableWidgetItem()
-        self.listaArchivos.setHorizontalHeaderItem(2, item)
-        #self.listaArchivos.setColumnWidth(2,120)
-        self.listaArchivos.horizontalHeader().setSectionResizeMode(2, QHeaderView.Stretch)
-        self.listaArchivos.verticalHeader().setVisible(False)
 
-        # Columna Ruta        
+        # File Table Definition
+        self.listFiles = QtWidgets.QTableWidget(self.centralwidget)
+        self.listFiles.setEditTriggers(QtWidgets.QAbstractItemView.NoEditTriggers)
+        self.listFiles.setMaximumSize(QtCore.QSize(700, 16777215))
+        self.listFiles.setSelectionBehavior(QtWidgets.QTableView.SelectRows)
+        self.listFiles.setGridStyle(QtCore.Qt.DotLine)
+        self.listFiles.setWordWrap(True)
+        self.listFiles.setCornerButtonEnabled(True)
+        self.listFiles.setColumnCount(3)
+        self.listFiles.setObjectName("listFiles")
+        self.listFiles.setMouseTracking(True)
+
+        # "Simplified Path" Column
+        item = QtWidgets.QTableWidgetItem()
+        self.listFiles.setHorizontalHeaderItem(0, item)
+        self.listFiles.setColumnWidth(0, 110)
+
+        # "Original Name" Column
+        item = QtWidgets.QTableWidgetItem()
+        self.listFiles.setHorizontalHeaderItem(1, item)
+        # self.listFiles.setColumnWidth(1,120)
+        self.listFiles.horizontalHeader().setSectionResizeMode(1, QHeaderView.Stretch)
+
+        # "New Name" Column
+        item = QtWidgets.QTableWidgetItem()
+        self.listFiles.setHorizontalHeaderItem(2, item)
+        # self.listFiles.setColumnWidth(2,120)
+        self.listFiles.horizontalHeader().setSectionResizeMode(2, QHeaderView.Stretch)
+        self.listFiles.verticalHeader().setVisible(False)
+
+        # Columna Ruta
         # item = QtWidgets.QTableWidgetItem()
-        # self.listaArchivos.setHorizontalHeaderItem(3, item)
-        # self.listaArchivos.horizontalHeader().setSectionResizeMode(QHeaderView.Stretch)
+        # self.listFiles.setHorizontalHeaderItem(3, item)
+        # self.listFiles.horizontalHeader().setSectionResizeMode(QHeaderView.Stretch)
 
-       # Botón Agregar Archivos        
+        # "Add Files" Button
         self.btnPushFile = QtWidgets.QPushButton(self.gridLayoutWidget)
-        #self.btnPushFile.setGeometry(QtCore.QRect(550, 60, 31, 34))
         self.btnPushFile.setObjectName("btnPushFile")
         self.btnPushFile.setMaximumWidth(34)
-        self.btnPushFile.setIcon(QtGui.QIcon("icons/list-add.svg"))
-        self.btnPushFile.setToolTip("Agregar archivos") 
+        self.btnPushFile.setIcon(QtGui.QIcon(os.path.join(dirname, "icons/list-add.svg")))
+        self.btnPushFile.setToolTip("Add files")
 
-        # Boton Quitar Archivos        
+        # "Remove Files" Button
         self.btnPullFile = QtWidgets.QPushButton(self.centralwidget)
-        #self.btnPullFile.setGeometry(QtCore.QRect(550, 100, 31, 34))
         self.btnPullFile.setObjectName("btnPullFile")
         self.btnPullFile.setMaximumWidth(34)
-        self.btnPullFile.setIcon(QtGui.QIcon("icons/list-remove.svg"))
-        self.btnPullFile.setToolTip("Quitar el/los archivo(s) seleccionado(s)")
-        
-        # Botón Subir
+        self.btnPullFile.setIcon(QtGui.QIcon(os.path.join(dirname, "icons/list-remove.svg")))
+        self.btnPullFile.setToolTip("Remove seleted file(s)")
+
+        # "Move Up" Button
         self.btnMoveUp = QtWidgets.QPushButton(self.centralwidget)
         self.btnMoveUp.setObjectName("btnMoveUp")
-        self.btnMoveUp.setMaximumWidth(34)    
-        self.btnMoveUp.setIcon(QtGui.QIcon("icons/go-up.svg"))
-        self.btnMoveUp.setToolTip("Subir el/los archivo(s) seleccionado(s)")
-        
-        # Botón Bajar
+        self.btnMoveUp.setMaximumWidth(34)
+        self.btnMoveUp.setIcon(QtGui.QIcon(os.path.join(dirname, "icons/go-up.svg")))
+        self.btnMoveUp.setToolTip("Move up selected file(s)")
+
+        # "Move Down" Button
         self.btnMoveDown = QtWidgets.QPushButton(self.centralwidget)
         self.btnMoveDown.setObjectName("btnMoveDown")
-        self.btnMoveDown.setMaximumWidth(34)        
-        self.btnMoveDown.setIcon(QtGui.QIcon("icons/go-down.svg"))
-        self.btnMoveDown.setToolTip("Bajar el/los archivo(s) seleccionado(s)")        
+        self.btnMoveDown.setMaximumWidth(34)
+        self.btnMoveDown.setIcon(QtGui.QIcon(os.path.join(dirname, "icons/go-down.svg")))
+        self.btnMoveDown.setToolTip("Move down selected file(s)")
 
-        # Botón Limpiar
+        # "Clear all" Button
         self.btnClean = QtWidgets.QPushButton(self.centralwidget)
         self.btnClean.setObjectName("btnClean")
-        self.btnClean.setMaximumWidth(34)        
-        self.btnClean.setIcon(QtGui.QIcon("icons/edit-delete.svg"))
-        self.btnClean.setToolTip("Eliminar todos")     
-        
-        # Nuevo Nombre
+        self.btnClean.setMaximumWidth(34)
+        self.btnClean.setIcon(QtGui.QIcon(os.path.join(dirname, "icons/edit-delete.svg")))
+        self.btnClean.setToolTip("Clear all")
+
+        # "New name" Label
         self.nuevoNombre = QtWidgets.QLineEdit(self.centralwidget)
-        #self.nuevoNombre.setGeometry(QtCore.QRect(30, 260, 341, 32))
         self.nuevoNombre.setObjectName("nuevoNombre")
-        self.nuevoNombre.setToolTip("Cambiará el nombre de los archivos por el que escriba aquí")
-        self.nuevoNombre.setText("NuevoNombre")              
+        self.nuevoNombre.setToolTip("This text will replace your original file name")
+        self.nuevoNombre.setText("New_Name")
 
-
-        # Etiqueta "Insertar"
+        # "Insert" Label
         self.labelInsert = QtWidgets.QLabel(self.centralwidget)
-        #self.labelInsert.setGeometry(QtCore.QRect(30, 310, 131, 18))
         self.labelInsert.setObjectName("labelInsert")
-        self.labelInsert.setText("Insertar")       
-                
-        # Spinbox Secuencia
+        self.labelInsert.setText("Insert")
+
+        # Number Sequence Spinbox
         self.spinSequence = QtWidgets.QSpinBox(self.centralwidget)
-        #self.spinSequence.setGeometry(QtCore.QRect(150, 300, 51, 32))
         self.spinSequence.setMinimum(1)
         self.spinSequence.setMaximum(100)
         self.spinSequence.setObjectName("spinSequence")
-        self.spinSequence.setToolTip("La secuencia comenzará a partir del número que ingrese")
+        self.spinSequence.setToolTip("Sequence will start from this number")
 
-        # ComboBox
+        # Up-Down Combo boxes
         self.comboBox = QtWidgets.QComboBox(self.centralwidget)
-        #self.comboBox.setGeometry(QtCore.QRect(230, 300, 83, 32))
         self.comboBox.setObjectName("comboBox")
-        self.comboBox.addItem("Inicio", "S")
-        self.comboBox.addItem("Fin", "E")
+        self.comboBox.addItem("Start", "S")
+        self.comboBox.addItem("End", "E")
         self.comboBox.setCurrentIndex(1)
 
-        # Botón Renombrar
+        # Rename Button
         self.btnRename = QtWidgets.QPushButton(self.centralwidget)
-        #self.btnRename.setGeometry(QtCore.QRect(221, 361, 85, 34))
         self.btnRename.setObjectName("btnRename")
-        self.btnRename.setText("Aplicar")
+        self.btnRename.setText("Apply")
 
-        # Boton Cerrar        
+        # Close Button
         self.btnClose = QtWidgets.QPushButton(self.centralwidget)
-        #self.btnClose.setGeometry(QtCore.QRect(312, 361, 84, 34))
-        self.btnClose.setObjectName("btnClose")                
-        self.btnClose.setText("Cerrar")
-        # self.btnClose.clicked.connect(QtWidgets.QApplication.instance().quit)                
+        self.btnClose.setObjectName("btnClose")
+        self.btnClose.setText("Close")
 
-#================       LAYOUT       ================
 
-        # Layout arriba izquierda
+# ================       LAYOUT       ================
+
+        # Upper left layout
         hboxTopLeft = QHBoxLayout()
         hboxTopLeft.setObjectName("hboxTopLeft")
-        hboxTopLeft.addWidget(self.listaArchivos)
-        
-        # Layout arriba derecha
+        hboxTopLeft.addWidget(self.listFiles)
+
+        # Upper right layout
         vboxTopRight = QVBoxLayout()
         vboxTopRight.setAlignment(Qt.AlignTop)
         vboxTopRight.setContentsMargins(0, -1, -1, 10)
@@ -170,102 +152,78 @@ class Ui_MainWindow(object):
         vboxTopRight.addWidget(self.btnMoveUp)
         vboxTopRight.addWidget(self.btnMoveDown)
         vboxTopRight.addWidget(self.btnClean)
-        
-        # Layout que contiene los dos layouts Top
+
+        # Layout that contains top layout boxes
         vboxFirst = QHBoxLayout()
         vboxFirst.addLayout(hboxTopLeft)
         vboxFirst.addLayout(vboxTopRight)
 
-
-        # Layout horizontal del medio
+        # Middle layout
         hboxMiddle = QHBoxLayout()
         hboxMiddle.addWidget(self.nuevoNombre)
-        
 
-        # Layout fondo izquierda 
-        hboxBottomLeft =  QHBoxLayout()
-        #hboxBottomLeft.addStretch(1)
-        #hboxBottomLeft.setAlignment(Qt.AlignLeft)
-        #hboxBottomLeft.setAlignment(Qt.AlignTop)
+        # Bottom left layout
+        hboxBottomLeft = QHBoxLayout()
         hboxBottomLeft.addWidget(self.labelInsert)
         hboxBottomLeft.addWidget(self.spinSequence)
         hboxBottomLeft.addWidget(self.comboBox)
-        
+
         vboxLeft = QVBoxLayout()
         vboxLeft.addStretch(1)
-        #vboxLeft.setAlignment(Qt.AlignLeft)
         vboxLeft.addLayout(hboxBottomLeft)
 
-        # Layout fondo derecha
+        # Bottom right layout
         hboxBottomRight = QHBoxLayout()
         hboxBottomRight.addStretch(1)
-        #hboxBottomRight.setAlignment(Qt.AlignTop)
         hboxBottomRight.addWidget(self.btnRename)
         hboxBottomRight.addWidget(self.btnClose)
-  
-               
+
         vboxRight = QVBoxLayout()
         vboxRight.addStretch(1)
         vboxRight.addLayout(hboxBottomRight)
 
-    
         self.gridLayoutWidget.setGeometry(QtCore.QRect(30, 30, 700, 250))
         self.gridLayout1 = QtWidgets.QGridLayout(self.gridLayoutWidget)
         self.gridLayout1.setContentsMargins(0, 0, 0, 0)
-        self.gridLayout1.addLayout(vboxFirst,0,0)
-        #self.gridLayout1.addLayout(vboxTopRight,0,1)        
+        self.gridLayout1.addLayout(vboxFirst, 0, 0)
 
         self.gridLayoutWidget = QtWidgets.QWidget(self.centralwidget)
         self.gridLayoutWidget.setGeometry(QtCore.QRect(30, 285, 700, 85))
         self.gridLayoutWidget.setObjectName("gridLayoutWidget")
         self.gridLayout = QtWidgets.QGridLayout(self.gridLayoutWidget)
         self.gridLayout.setContentsMargins(0, 0, 0, 0)
-        self.gridLayout.setObjectName("gridLayout")   
+        self.gridLayout.setObjectName("gridLayout")
 
-        
-        self.gridLayout.addLayout(hboxMiddle,1,0)
+        self.gridLayout.addLayout(hboxMiddle, 1, 0)
         self.gridLayout.addLayout(vboxLeft, 2, 0)
         self.gridLayout.addLayout(vboxRight, 2, 1)
-           
-        
+
         MainWindow.setCentralWidget(self.centralwidget)
-#        self.statusbar = QtWidgets.QStatusBar(MainWindow)
-#        self.statusbar.setObjectName("statusbar")
-#        MainWindow.setStatusBar(self.statusbar)
         self.retranslateUi(MainWindow)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
 
-    # Etiquetas de los objetos
+    # Object labels
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
         MainWindow.setWindowTitle(_translate("MainWindow", "Pretty Simple File Renamer"))
-        #self.nuevoNombre.setText(_translate("MainWindow", "NuevoNombre"))
-                
-        # Texto de las columnas de la tabla de Archivos
-        item = self.listaArchivos.horizontalHeaderItem(0)
-        item.setText(_translate("MainWindow", "Ruta"))
-        
-        item = self.listaArchivos.horizontalHeaderItem(1)
-        item.setText(_translate("MainWindow", "Nombre"))
-        item = self.listaArchivos.horizontalHeaderItem(2)
-        item.setText(_translate("MainWindow", "Nuevo Nombre"))
-        
-     #   item = self.listaArchivos.horizontalHeaderItem(3)
-      #  item.setText(_translate("MainWindow", "Ruta"))
-        
-        
-        # Do the resize of the columns by content
-        #self.listaArchivos.resizeColumnsToContents()        
-        #self.grid_layout.addWidget(self.listaArchivos, 0, 0)   # Adding the table to the grid        
+
+        # Table's column texts
+        item = self.listFiles.horizontalHeaderItem(0)
+        item.setText(_translate("MainWindow", "Path"))
+
+        item = self.listFiles.horizontalHeaderItem(1)
+        item.setText(_translate("MainWindow", "Name"))
+        item = self.listFiles.horizontalHeaderItem(2)
+        item.setText(_translate("MainWindow", "New Name"))
+
 
 class SimpleRenamer(QtWidgets.QMainWindow):
     def __init__(self):
-        super(SimpleRenamer, self).__init__()        
-        self.ui = Ui_MainWindow()        
+        super(SimpleRenamer, self).__init__()
+        self.ui = Ui_MainWindow()
         self.ui.setupUi(self)
-        
-        # Eventos de botones
 
+        # Buttons events
         self.ui.btnPushFile.clicked.connect(self.callOpenDialog)
         self.ui.btnPullFile.clicked.connect(self.removeFiles)
         self.ui.spinSequence.valueChanged.connect(self.synchNumbers)
@@ -276,23 +234,23 @@ class SimpleRenamer(QtWidgets.QMainWindow):
         self.ui.btnClean.clicked.connect(self.cleanList)
         self.ui.btnRename.clicked.connect(self.applyRenaming)
         self.ui.btnClose.clicked.connect(QtWidgets.QApplication.instance().quit)
-        
-    # Lógica para renombrar los archivos según los parámetros elegidos en pantalla
-    def renameFiles(self, inSrcFile, inSequence):
-    
-        global strPosition
-                
-        strExtension = inSrcFile.split('.',1)
-        strRenamedFile = self.ui.nuevoNombre.text()   
 
-        # Obtiene la posición
-        strPosition = self.ui.comboBox.currentData()         
-        
+    # Rename files logic considering input parameters
+    def renameFiles(self, inSrcFile, inSequence):
+
+        global strPosition
+
+        strExtension = inSrcFile.split('.', 1)
+        strRenamedFile = self.ui.nuevoNombre.text()
+
+        # Get position
+        strPosition = self.ui.comboBox.currentData()
+
         if inSequence < 10:
             strSequence = "0" + str(inSequence)
         else:
             strSequence = str(inSequence)
-        
+
         if len(strExtension) < 2:
             if strPosition == "S":
                 outDestFile = strSequence + "_" + strRenamedFile
@@ -303,118 +261,117 @@ class SimpleRenamer(QtWidgets.QMainWindow):
                 outDestFile = strSequence + "_" + strRenamedFile + '.' + strExtension[1]
             else:
                 outDestFile = strRenamedFile + "_" + strSequence + '.' + strExtension[1]
-          
+
         return outDestFile
 
-    # Re-sincroniza los archivos a partir de los cambios hechos: secuencia, posición, nombre
+    # Resynchronize files based on changed parameters: sequence, position, name
     def synchNumbers(self):
-    
-        #global intSequence
-        # Obtiene secuencia nueva
+        # Get number sequence
         intResynch = self.ui.spinSequence.value()
-    
-        # Recorre la tabla de archivos
-        for nbrIndex in range(self.ui.listaArchivos.rowCount()):
-            srcFile = self.ui.listaArchivos.item(nbrIndex,1)
+
+        # Move through table
+        for nbrIndex in range(self.ui.listFiles.rowCount()):
+            srcFile = self.ui.listFiles.item(nbrIndex, 1)
 
             # debug print ("source"+ srcFile.text())
-            # Función de renombrado de archivos
+            # Call Rename file function
             strDestFile = self.renameFiles(srcFile.text(), intResynch)
             itemDestFile = QtWidgets.QTableWidgetItem()
-            itemDestFile.setText(strDestFile)            
-            self.ui.listaArchivos.setItem(nbrIndex,2, itemDestFile)
+            itemDestFile.setText(strDestFile)
+            self.ui.listFiles.setItem(nbrIndex, 2, itemDestFile)
 
             nbrIndex += 1
             intResynch += 1
 
-    # Mueve los archivos elegidos
+    # Move selected files
     def moveFiles(self, direction):
-        
-            indexes = self.ui.listaArchivos.selectionModel().selectedRows()
-            
-            if not indexes:
-                return
-                 
-            if direction == "UP":
-                for index in sorted(indexes):
-                    intRow = index.row()
-                    print('Row %d is selected' % intRow)                     
-                    if intRow > 0:
-                        self.ui.listaArchivos.insertRow(intRow - 1)
-                        for i in range(self.ui.listaArchivos.columnCount()):
-                            self.ui.listaArchivos.setItem(intRow - 1,i,self.ui.listaArchivos.takeItem(intRow + 1,i))
-                            #self.ui.listaArchivos.setCurrentCell(index.row()-1,column)          
-                        self.ui.listaArchivos.removeRow(intRow + 1)
-                        
-                        # Mueve el foco a la fila movida 
-                        newIndex = self.ui.listaArchivos.selectionModel().model().index(intRow - 1,0)
-                        self.ui.listaArchivos.selectionModel().select(newIndex,QItemSelectionModel.Select)
-                        self.ui.listaArchivos.setCurrentIndex(newIndex)
-            else:
-                for index in sorted(indexes, reverse=True):
-                    intRow = index.row()
-                    print('Row %d is selected' % intRow)     
-                    if intRow < int(self.ui.listaArchivos.rowCount()-1):
-                        self.ui.listaArchivos.insertRow(intRow + 2)
-                        for i in range(self.ui.listaArchivos.columnCount()):
-                            self.ui.listaArchivos.setItem(intRow + 2, i,self.ui.listaArchivos.takeItem(intRow,i))
-                            #self.ui.listaArchivos.setCurrentCell(intRow + 2,column)
-                        self.ui.listaArchivos.removeRow(intRow)
-                        
-                        # Mueve el foco a la fila movida 
-                        newIndex = self.ui.listaArchivos.selectionModel().model().index(intRow + 1,0)
-                        self.ui.listaArchivos.selectionModel().select(newIndex,QItemSelectionModel.Select)
-                        self.ui.listaArchivos.setCurrentIndex(newIndex)
-                
-                self.ui.listaArchivos.setFocus()
-        
-    # Mover arriba
+
+        indexes = self.ui.listFiles.selectionModel().selectedRows()
+
+        if not indexes:
+            return
+
+        if direction == "UP":
+            for index in sorted(indexes):
+                intRow = index.row()
+                # debug only - print('Row %d is selected' % intRow)
+                if intRow > 0:
+                    self.ui.listFiles.insertRow(intRow - 1)
+                    for i in range(self.ui.listFiles.columnCount()):
+                        self.ui.listFiles.setItem(
+                            intRow - 1, i, self.ui.listFiles.takeItem(intRow + 1, i))
+                    self.ui.listFiles.removeRow(intRow + 1)
+
+                    # Change focus to moved file
+                    newIndex = self.ui.listFiles.selectionModel().model().index(intRow - 1, 0)
+                    self.ui.listFiles.selectionModel().select(newIndex, QItemSelectionModel.Select)
+                    self.ui.listFiles.setCurrentIndex(newIndex)
+        else:
+            for index in sorted(indexes, reverse=True):
+                intRow = index.row()
+                # debug only - print('Row %d is selected' % intRow)
+                if intRow < int(self.ui.listFiles.rowCount()-1):
+                    self.ui.listFiles.insertRow(intRow + 2)
+                    for i in range(self.ui.listFiles.columnCount()):
+                        self.ui.listFiles.setItem(
+                            intRow + 2, i, self.ui.listFiles.takeItem(intRow, i))
+                        # self.ui.listFiles.setCurrentCell(intRow + 2,column)
+                    self.ui.listFiles.removeRow(intRow)
+
+                    # Change row focus to moved file
+                    newIndex = self.ui.listFiles.selectionModel().model().index(intRow + 1, 0)
+                    self.ui.listFiles.selectionModel().select(newIndex, QItemSelectionModel.Select)
+                    self.ui.listFiles.setCurrentIndex(newIndex)
+
+            self.ui.listFiles.setFocus()
+
+    # Move up
     def moveUp(self):
         self.moveFiles("UP")
         self.synchNumbers()
 
-    # Mover abajo
+    # Move down
     def moveDown(self):
         self.moveFiles("DOWN")
         self.synchNumbers()
-        
-    # Quitar archivos
+
+    # Remove files
     def removeFiles(self):
         global intSequence
-        indexes = self.ui.listaArchivos.selectionModel().selectedRows()
+        indexes = self.ui.listFiles.selectionModel().selectedRows()
         for index in sorted(indexes):
-            self.ui.listaArchivos.removeRow(index.row())
+            self.ui.listFiles.removeRow(index.row())
         self.synchNumbers()
         intSequence = intSequence - 1
- 
-    # Limpia la tabla
+
+    # Clear table
     def cleanList(self):
-        global intSequence        
-        self.ui.listaArchivos.selectionModel().model().removeRows(0, self.ui.listaArchivos.rowCount())
+        global intSequence
+        self.ui.listFiles.selectionModel().model().removeRows(0, self.ui.listFiles.rowCount())
         intSequence = self.ui.spinSequence.value()
-        
-    # Renombra físicamente los archivos
+
+    # Rename files phisically
     def applyRenaming(self):
-        
-        print ("Renombrado de archivos")
-        # Recorre la tabla de archivos
-        for nbrIndex in range(self.ui.listaArchivos.rowCount()):
-            srcFolder = self.ui.listaArchivos.item(nbrIndex,0).toolTip()
-            srcFile = self.ui.listaArchivos.item(nbrIndex,1)
-            dstFile = self.ui.listaArchivos.item(nbrIndex,2)
-        
+
+        # debug only - print("Renombrado de archivos")
+        # Move through table
+        for nbrIndex in range(self.ui.listFiles.rowCount()):
+            srcFolder = self.ui.listFiles.item(nbrIndex, 0).toolTip()
+            srcFile = self.ui.listFiles.item(nbrIndex, 1)
+            dstFile = self.ui.listFiles.item(nbrIndex, 2)
+
             src = srcFolder + srcFile.text()
             dst = srcFolder + dstFile.text()
-            
-            print (src + " >>> " + dst)
 
-            os.rename(src,dst)
-        print ("Renombrado finalizado")
+            # debug only - print(src + " >>> " + dst)
+
+            os.rename(src, dst)
+        # debug only - print("Renombrado finalizado")
         self.cleanList()
 
     def itemAlreadyExists(self, inSrcFile):
-        
-        itemList = self.ui.listaArchivos.findItems(inSrcFile, QtCore.Qt.MatchExactly)
+
+        itemList = self.ui.listFiles.findItems(inSrcFile, QtCore.Qt.MatchExactly)
         if len(itemList) > 0:
             return True
         else:
@@ -424,62 +381,55 @@ class SimpleRenamer(QtWidgets.QMainWindow):
         self.openFileNamesDialog()
 
     def openFileNamesDialog(self):
-        
+
         global intSequence
         global strPosition
-        
-        # Obtiene la secuencia
+
+        # Get number sequence
         if intSequence == 0:
             intSequence = self.ui.spinSequence.value()
-        
-        # Obtiene la posición
-        strPosition = self.ui.comboBox.currentData() 
-        
+
+        # Get position
+        strPosition = self.ui.comboBox.currentData()
+
         options = QFileDialog.Options()
-        options |= QFileDialog.DontUseNativeDialog        
-        files, _ = QFileDialog.getOpenFileNames(self,"Agregar archivos", "","All Files (*);;Python Files (*.py)", options=options)
-        
+        options |= QFileDialog.DontUseNativeDialog
+        files, _ = QFileDialog.getOpenFileNames(
+            self, "Add archivos", "", "All Files (*)", options=options)
+
         if files:
 
             for filename in files:
-#                filename = os.path.normpath(filename)
-                srcFile = filename.split("/")[-1]             
-                srcFolder = filename.split(srcFile,1)[0]
+                #                filename = os.path.normpath(filename)
+                srcFile = filename.split("/")[-1]
+                srcFolder = filename.split(srcFile, 1)[0]
                 lenSplit = len(srcFolder.split("/")) - 2
-                srcFolderSplit = "../" + srcFolder.split("/")[lenSplit] + "/" 
-                
-                       
-#                srcFolder = filename.directory() + "/"
-#                srcFile = filename.split(srcFolder,1)            
-                # debug print ("File " + srcFile)
-                # debug print ("Path " + srcFolder)
-                
+                srcFolderSplit = "../" + srcFolder.split("/")[lenSplit] + "/"
+
+                # debug only - print ("File " + srcFile)
+                # debug only - print ("Path " + srcFolder)
+
                 if self.itemAlreadyExists(srcFile) == False:
-                    
-                    intRow = int(self.ui.listaArchivos.rowCount())
-                    
+
+                    intRow = int(self.ui.listFiles.rowCount())
                     itemFolderSplit = QtWidgets.QTableWidgetItem()
                     itemFolderSplit.setText(srcFolderSplit)
                     itemFolderSplit.setToolTip(srcFolder)
-                    
-                    #itemFolder = QtWidgets.QTableWidgetItem()
-                    #itemFolder.setText(srcFolder)
-                    
-                    self.ui.listaArchivos.insertRow(intRow)
-                    self.ui.listaArchivos.setItem(intRow, 0, itemFolderSplit)
-                    # self.ui.listaArchivos.setItem(intRow, 3, itemFolder)
-                    
-                    itemSourceFile = QtWidgets.QTableWidgetItem()                    
-                    itemSourceFile.setText(srcFile)
-                    self.ui.listaArchivos.setItem(intRow, 1, itemSourceFile)
 
-                    # Función de renombrado de archivos
+                    self.ui.listFiles.insertRow(intRow)
+                    self.ui.listFiles.setItem(intRow, 0, itemFolderSplit)
+
+                    itemSourceFile = QtWidgets.QTableWidgetItem()
+                    itemSourceFile.setText(srcFile)
+                    self.ui.listFiles.setItem(intRow, 1, itemSourceFile)
+
+                    # Call file renaming function (just name, not phisically)
                     strDestFile = self.renameFiles(srcFile, intSequence)
 
                     itemDestFile = QtWidgets.QTableWidgetItem()
                     itemDestFile.setText(strDestFile)
-                    self.ui.listaArchivos.setItem(intRow, 2, itemDestFile)
-                    
+                    self.ui.listFiles.setItem(intRow, 2, itemDestFile)
+
                 intSequence += 1
 
     def location_on_the_screen(self):
@@ -491,13 +441,15 @@ class SimpleRenamer(QtWidgets.QMainWindow):
         y = ag.height() - sg.height() - widget.height()
         self.move(x, y)
 
-                            
+
 intSequence = 0
-strPosition =""
+strPosition = ""
+file = sys.argv[0]
+dirname = os.path.dirname(file)
 
 if __name__ == '__main__':
     intRow = 0
-    app = QtWidgets.QApplication(sys.argv)    
+    app = QtWidgets.QApplication(sys.argv)
     ex = SimpleRenamer()
     ex.show()
     sys.exit(app.exec())
