@@ -11,11 +11,12 @@
 import os
 import urllib
 import sys
+import time
 
 from PyQt5 import Qt, QtCore, QtGui, QtWidgets
 from PyQt5.QtCore import *
 # from PyQt5.QtCore import QDir, QUrl, QFileInfo
-from PyQt5.QtWidgets import (QWidget, QPushButton, QLabel, QLineEdit, QComboBox, QSpinBox,
+from PyQt5.QtWidgets import (QWidget, QPushButton, QLabel, QLineEdit, QComboBox, QSpinBox, QCheckBox,
                              QApplication, QFileDialog, QGridLayout, QHeaderView, QHBoxLayout, QVBoxLayout, QDesktopWidget)
 
 
@@ -118,12 +119,25 @@ class Ui_MainWindow(object):
         self.spinSequence.setObjectName("spinSequence")
         self.spinSequence.setToolTip("Sequence will start from this number")
 
-        # Up-Down Combo boxes
-        self.comboBox = QtWidgets.QComboBox(self.centralwidget)
-        self.comboBox.setObjectName("comboBox")
-        self.comboBox.addItem("Start", "S")
-        self.comboBox.addItem("End", "E")
-        self.comboBox.setCurrentIndex(1)
+        # "Start/End" Combo box
+        self.comboStartEnd = QtWidgets.QComboBox(self.centralwidget)
+        self.comboStartEnd.setObjectName("comboStartEnd")
+        self.comboStartEnd.addItem("Start", "S")
+        self.comboStartEnd.addItem("End", "E")
+        self.comboStartEnd.setCurrentIndex(1)
+
+        # "Uppercase" Combo box
+        self.comboCase = QtWidgets.QComboBox(self.centralwidget)
+        self.comboCase.setObjectName("comboCase")
+        self.comboCase.addItem("Preserve case", "N")
+        self.comboCase.addItem("UPPERCASE", "U")
+        self.comboCase.addItem("lowercase", "L")
+        self.comboCase.setCurrentIndex(0)
+
+        # "Add date" checkbox
+        self.checkAddDt = QtWidgets.QCheckBox(self.centralwidget)
+        self.checkAddDt.setObjectName("checkAddDate")
+        self.checkAddDt.setText("Add Date")
 
         # Rename Button
         self.btnRename = QtWidgets.QPushButton(self.centralwidget)
@@ -161,16 +175,18 @@ class Ui_MainWindow(object):
         # Middle layout
         hboxMiddle = QHBoxLayout()
         hboxMiddle.addWidget(self.nuevoNombre)
+        hboxMiddle.addWidget(self.comboCase)
+        hboxMiddle.addWidget(self.checkAddDt)
 
-        # Bottom left layout
-        hboxBottomLeft = QHBoxLayout()
-        hboxBottomLeft.addWidget(self.labelInsert)
-        hboxBottomLeft.addWidget(self.spinSequence)
-        hboxBottomLeft.addWidget(self.comboBox)
+        # Spin sequence layout
+        hboxSpinSequence = QHBoxLayout()
+        hboxSpinSequence.addWidget(self.labelInsert)
+        hboxSpinSequence.addWidget(self.spinSequence)
+        hboxSpinSequence.addWidget(self.comboStartEnd)
 
         vboxLeft = QVBoxLayout()
         vboxLeft.addStretch(1)
-        vboxLeft.addLayout(hboxBottomLeft)
+        vboxLeft.addLayout(hboxSpinSequence)
 
         # Bottom right layout
         hboxBottomRight = QHBoxLayout()
@@ -227,8 +243,10 @@ class SimpleRenamer(QtWidgets.QMainWindow):
         self.ui.btnPushFile.clicked.connect(self.callOpenDialog)
         self.ui.btnPullFile.clicked.connect(self.removeFiles)
         self.ui.spinSequence.valueChanged.connect(self.synchNumbers)
-        self.ui.comboBox.currentIndexChanged.connect(self.synchNumbers)
+        self.ui.comboCase.currentIndexChanged.connect(self.synchNumbers)
+        self.ui.comboStartEnd.currentIndexChanged.connect(self.synchNumbers)
         self.ui.nuevoNombre.textChanged.connect(self.synchNumbers)
+        self.ui.checkAddDt.stateChanged.connect(self.synchNumbers)
         self.ui.btnMoveUp.clicked.connect(self.moveUp)
         self.ui.btnMoveDown.clicked.connect(self.moveDown)
         self.ui.btnClean.clicked.connect(self.cleanList)
@@ -243,8 +261,22 @@ class SimpleRenamer(QtWidgets.QMainWindow):
         strExtension = inSrcFile.split('.', 1)
         strRenamedFile = self.ui.nuevoNombre.text()
 
+        # Case
+        strCase = self.ui.comboCase.currentData()
+
+        if strCase == "U": # uppercase
+            strRenamedFile = strRenamedFile.upper()
+        elif strCase == "L":
+            strRenamedFile = strRenamedFile.lower()
+            pass
+
+        # Date
+        if self.ui.checkAddDt.isChecked() == True:
+            dtToday = time.strftime('%Y%m%d')
+            strRenamedFile = strRenamedFile + "_" + dtToday
+
         # Get position
-        strPosition = self.ui.comboBox.currentData()
+        strPosition = self.ui.comboStartEnd.currentData()
 
         if inSequence < 10:
             strSequence = "0" + str(inSequence)
@@ -390,7 +422,7 @@ class SimpleRenamer(QtWidgets.QMainWindow):
             intSequence = self.ui.spinSequence.value()
 
         # Get position
-        strPosition = self.ui.comboBox.currentData()
+        strPosition = self.ui.comboStartEnd.currentData()
 
         options = QFileDialog.Options()
         options |= QFileDialog.DontUseNativeDialog

@@ -13,14 +13,14 @@ What it does:
 - Add/remove files to rename.
 - Clean list of added files
 - Postfix/sufix sequence option.
+- Uppercase/Lowecase/Preserve Case.
+- Add system date in YYYYMMDD format.
 
 It doesn't:
 - use regular expressions. 
 
 To-do (next releases):
 - Possibility to use letters instead of numbers.
-- Uppercase/Lowecase.
-- add date.
 
 Wishlist:
 - Drag & Drop
