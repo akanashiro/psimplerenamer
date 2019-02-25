@@ -237,6 +237,7 @@ class SimpleRenamer(QtWidgets.QMainWindow):
     def __init__(self):
         super(SimpleRenamer, self).__init__()
         self.ui = Ui_MainWindow()
+        self.setWindowIcon(QtGui.QIcon(os.path.join(dirname, "icons/application.svg")))
         self.ui.setupUi(self)
 
         # Buttons events
