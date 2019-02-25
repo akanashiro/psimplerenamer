@@ -32,5 +32,5 @@ How to use it:
 <img src="explanation.png">
 <img src="result.png">
 
-PS: there's a binary at "psimplerenamer/pyQT version/dist/"
+PS: Added a deb package <a href='binary/psimplerenamer_0.2_all.deb'>psimplerenamer_0.2_all.deb</a>
 
