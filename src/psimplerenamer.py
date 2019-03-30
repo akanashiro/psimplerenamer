@@ -16,8 +16,7 @@ import time
 from PyQt5 import Qt, QtCore, QtGui, QtWidgets
 from PyQt5.QtCore import *
 # from PyQt5.QtCore import QDir, QUrl, QFileInfo
-from PyQt5.QtWidgets import (QWidget, QPushButton, QLabel, QLineEdit, QComboBox, QSpinBox, QCheckBox,
-                             QApplication, QFileDialog, QGridLayout, QHeaderView, QHBoxLayout, QVBoxLayout, QDesktopWidget)
+from PyQt5.QtWidgets import QWidget, QPushButton, QLabel, QLineEdit, QComboBox, QSpinBox, QCheckBox, QApplication, QFileDialog, QGridLayout, QHeaderView, QHBoxLayout, QVBoxLayout, QDesktopWidget
 
 
 class Ui_MainWindow(object):
