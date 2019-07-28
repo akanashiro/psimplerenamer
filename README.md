@@ -25,9 +25,7 @@ To-do (next releases):
 
 How to use it:
 - If you have pyQT5 installed: download all the files from "src" and run "./psimplerenamer.py"
-~~- Added a deb package <a href='binary/psimplerenamer_0.2_all.deb'>psimplerenamer_0.2_all.deb</a>~~
+- ~~Added a deb package <a href='binary/psimplerenamer_0.2_all.deb'>psimplerenamer_0.2_all.deb</a>~~
 
 <img src="explanation.png">
 <img src="result.png">
-
-

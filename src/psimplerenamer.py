@@ -489,8 +489,8 @@ class SimpleRenamer(QtWidgets.QMainWindow):
 
     def openFileNamesDialog(self):
 
-        global intSequence
         global strPosition
+        global intSequence
 
         # Get number sequence
         if intSequence == 0:
@@ -502,7 +502,7 @@ class SimpleRenamer(QtWidgets.QMainWindow):
         options = QFileDialog.Options()
         options |= QFileDialog.DontUseNativeDialog
         files, _ = QFileDialog.getOpenFileNames(
-            self, "Add archivos", "", "All Files (*)", options=options)
+            self, "Add Files", "", "All Files (*)", options=options)
 
         if files:
 
@@ -547,7 +547,7 @@ class SimpleRenamer(QtWidgets.QMainWindow):
             for url in e.mimeData().urls():
                 fname = str(url.toLocalFile())
                 self.insertFileName(fname)
-                print(fname)
+                # debug print(fname)
         else:
             e.ignore()
 
