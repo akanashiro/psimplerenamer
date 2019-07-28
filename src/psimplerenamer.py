@@ -16,7 +16,8 @@ import time
 from PyQt5 import Qt, QtCore, QtGui, QtWidgets
 from PyQt5.QtCore import *
 # from PyQt5.QtCore import QDir, QUrl, QFileInfo
-from PyQt5.QtWidgets import QWidget, QPushButton, QLabel, QLineEdit, QComboBox, QSpinBox, QCheckBox, QApplication, QFileDialog, QGridLayout, QHeaderView, QHBoxLayout, QVBoxLayout, QDesktopWidget
+from PyQt5.QtWidgets import QMessageBox, qApp, QAction, QWidget, QPushButton, QLabel, QLineEdit, QComboBox, QSpinBox, QCheckBox, QApplication, QFileDialog, QGridLayout, QHeaderView, QHBoxLayout, QVBoxLayout, QDesktopWidget
+from PyQt5.QtGui import QIcon
 
 
 class Ui_MainWindow(object):
@@ -25,7 +26,7 @@ class Ui_MainWindow(object):
         MainWindow.setObjectName("MainWindow")
         MainWindow.setWindowFlags(
             Qt.WindowMaximizeButtonHint | Qt.WindowCloseButtonHint)
-        MainWindow.setFixedSize(750, 400)
+        MainWindow.setFixedSize(750, 430)
 
         self.centralwidget = QtWidgets.QWidget(MainWindow)
         self.centralwidget.setObjectName("centralwidget")
@@ -252,8 +253,24 @@ class SimpleRenamer(QtWidgets.QMainWindow):
             os.path.join(dirname, "icons/application.svg")))
         self.ui.setupUi(self)
 
-        # nuevo
+        # Drag & Drop
         self.setAcceptDrops(True)
+
+        # Menu
+        exitAction = QAction(
+            QIcon(os.path.join(dirname, "icons/application-exit.svg")), '&Exit', self)
+
+        exitAction.setShortcut('Ctrl+Q')
+        exitAction.setStatusTip('Exit application')
+        exitAction.triggered.connect(qApp.quit)
+
+        aboutAction = QAction('&About', self)
+        aboutAction.triggered.connect(self.showAbout)
+
+        mainMenu = self.menuBar()
+        fileMenu = mainMenu.addMenu('&File')
+        fileMenu.addAction(aboutAction)
+        fileMenu.addAction(exitAction)
 
         # Buttons events
         self.ui.btnPushFile.clicked.connect(self.callOpenDialog)
@@ -430,9 +447,7 @@ class SimpleRenamer(QtWidgets.QMainWindow):
         else:
             return False
 
-    def callOpenDialog(self):
-        self.openFileNamesDialog()
-
+    # Insert the filename in the grid
     def insertFileName(self, filename):
 
         global intSequence
@@ -468,6 +483,10 @@ class SimpleRenamer(QtWidgets.QMainWindow):
 
         intSequence += 1
 
+    # File Dialog box
+    def callOpenDialog(self):
+        self.openFileNamesDialog()
+
     def openFileNamesDialog(self):
 
         global intSequence
@@ -491,6 +510,7 @@ class SimpleRenamer(QtWidgets.QMainWindow):
                 #                filename = os.path.normpath(filename)
                 self.insertFileName(filename)
 
+    # Screen Location - does it work?
     def location_on_the_screen(self):
         ag = QDesktopWidget().availableGeometry()
         sg = QDesktopWidget().screenGeometry()
@@ -530,6 +550,13 @@ class SimpleRenamer(QtWidgets.QMainWindow):
                 print(fname)
         else:
             e.ignore()
+
+    # About Dialog
+    def showAbout(self):
+        aboutBox = QMessageBox()
+        # aboutBox.setIcon(QMessageBox.Information)
+        aboutBox.about(self, "About", "Agustín Kanashiro - 2019<br/>"
+                       "<a href=\"https://github.com/akanashiro/psimplerenamer\">Github psimplerenamer</a>")
 
 
 intSequence = 0
