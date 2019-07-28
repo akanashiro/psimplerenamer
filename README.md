@@ -15,15 +15,13 @@ What it does:
 - Postfix/sufix sequence option.
 - Uppercase/Lowecase/Preserve Case.
 - Add system date in YYYYMMDD format.
+- Drag & Drop (new!)
 
 It doesn't:
 - use regular expressions. 
 
 To-do (next releases):
 - Possibility to use letters instead of numbers.
-
-Wishlist:
-- Drag & Drop
 
 How to use it:
 - If you have pyQT5 installed: download all the files from "src" and run "./psimplerenamer.py"
