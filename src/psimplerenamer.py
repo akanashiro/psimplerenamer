@@ -23,7 +23,8 @@ class Ui_MainWindow(object):
 
     def setupUi(self, MainWindow):
         MainWindow.setObjectName("MainWindow")
-        MainWindow.setWindowFlags(Qt.WindowMaximizeButtonHint | Qt.WindowCloseButtonHint)
+        MainWindow.setWindowFlags(
+            Qt.WindowMaximizeButtonHint | Qt.WindowCloseButtonHint)
         MainWindow.setFixedSize(750, 400)
 
         self.centralwidget = QtWidgets.QWidget(MainWindow)
@@ -32,7 +33,8 @@ class Ui_MainWindow(object):
 
         # File Table Definition
         self.listFiles = QtWidgets.QTableWidget(self.centralwidget)
-        self.listFiles.setEditTriggers(QtWidgets.QAbstractItemView.NoEditTriggers)
+        self.listFiles.setEditTriggers(
+            QtWidgets.QAbstractItemView.NoEditTriggers)
         self.listFiles.setMaximumSize(QtCore.QSize(700, 16777215))
         self.listFiles.setSelectionBehavior(QtWidgets.QTableView.SelectRows)
         self.listFiles.setGridStyle(QtCore.Qt.DotLine)
@@ -69,41 +71,47 @@ class Ui_MainWindow(object):
         self.btnPushFile = QtWidgets.QPushButton(self.gridLayoutWidget)
         self.btnPushFile.setObjectName("btnPushFile")
         self.btnPushFile.setMaximumWidth(34)
-        self.btnPushFile.setIcon(QtGui.QIcon(os.path.join(dirname, "icons/list-add.svg")))
+        self.btnPushFile.setIcon(QtGui.QIcon(
+            os.path.join(dirname, "icons/list-add.svg")))
         self.btnPushFile.setToolTip("Add files")
 
         # "Remove Files" Button
         self.btnPullFile = QtWidgets.QPushButton(self.centralwidget)
         self.btnPullFile.setObjectName("btnPullFile")
         self.btnPullFile.setMaximumWidth(34)
-        self.btnPullFile.setIcon(QtGui.QIcon(os.path.join(dirname, "icons/list-remove.svg")))
+        self.btnPullFile.setIcon(QtGui.QIcon(
+            os.path.join(dirname, "icons/list-remove.svg")))
         self.btnPullFile.setToolTip("Remove seleted file(s)")
 
         # "Move Up" Button
         self.btnMoveUp = QtWidgets.QPushButton(self.centralwidget)
         self.btnMoveUp.setObjectName("btnMoveUp")
         self.btnMoveUp.setMaximumWidth(34)
-        self.btnMoveUp.setIcon(QtGui.QIcon(os.path.join(dirname, "icons/go-up.svg")))
+        self.btnMoveUp.setIcon(QtGui.QIcon(
+            os.path.join(dirname, "icons/go-up.svg")))
         self.btnMoveUp.setToolTip("Move up selected file(s)")
 
         # "Move Down" Button
         self.btnMoveDown = QtWidgets.QPushButton(self.centralwidget)
         self.btnMoveDown.setObjectName("btnMoveDown")
         self.btnMoveDown.setMaximumWidth(34)
-        self.btnMoveDown.setIcon(QtGui.QIcon(os.path.join(dirname, "icons/go-down.svg")))
+        self.btnMoveDown.setIcon(QtGui.QIcon(
+            os.path.join(dirname, "icons/go-down.svg")))
         self.btnMoveDown.setToolTip("Move down selected file(s)")
 
         # "Clear all" Button
         self.btnClean = QtWidgets.QPushButton(self.centralwidget)
         self.btnClean.setObjectName("btnClean")
         self.btnClean.setMaximumWidth(34)
-        self.btnClean.setIcon(QtGui.QIcon(os.path.join(dirname, "icons/edit-delete.svg")))
+        self.btnClean.setIcon(QtGui.QIcon(
+            os.path.join(dirname, "icons/edit-delete.svg")))
         self.btnClean.setToolTip("Clear all")
 
         # "New name" Label
         self.nuevoNombre = QtWidgets.QLineEdit(self.centralwidget)
         self.nuevoNombre.setObjectName("nuevoNombre")
-        self.nuevoNombre.setToolTip("This text will replace your original file name")
+        self.nuevoNombre.setToolTip(
+            "This text will replace your original file name")
         self.nuevoNombre.setText("New_Name")
 
         # "Insert" Label
@@ -220,7 +228,8 @@ class Ui_MainWindow(object):
     # Object labels
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
-        MainWindow.setWindowTitle(_translate("MainWindow", "Pretty Simple File Renamer"))
+        MainWindow.setWindowTitle(_translate(
+            "MainWindow", "Pretty Simple File Renamer"))
 
         # Table's column texts
         item = self.listFiles.horizontalHeaderItem(0)
@@ -231,13 +240,20 @@ class Ui_MainWindow(object):
         item = self.listFiles.horizontalHeaderItem(2)
         item.setText(_translate("MainWindow", "New Name"))
 
+    def dropEvent(self, e):
+        self.listFiles.setItem(1, 0, e.mimeData().text())
+
 
 class SimpleRenamer(QtWidgets.QMainWindow):
     def __init__(self):
         super(SimpleRenamer, self).__init__()
         self.ui = Ui_MainWindow()
-        self.setWindowIcon(QtGui.QIcon(os.path.join(dirname, "icons/application.svg")))
+        self.setWindowIcon(QtGui.QIcon(
+            os.path.join(dirname, "icons/application.svg")))
         self.ui.setupUi(self)
+
+        # nuevo
+        self.setAcceptDrops(True)
 
         # Buttons events
         self.ui.btnPushFile.clicked.connect(self.callOpenDialog)
@@ -251,7 +267,8 @@ class SimpleRenamer(QtWidgets.QMainWindow):
         self.ui.btnMoveDown.clicked.connect(self.moveDown)
         self.ui.btnClean.clicked.connect(self.cleanList)
         self.ui.btnRename.clicked.connect(self.applyRenaming)
-        self.ui.btnClose.clicked.connect(QtWidgets.QApplication.instance().quit)
+        self.ui.btnClose.clicked.connect(
+            QtWidgets.QApplication.instance().quit)
 
     # Rename files logic considering input parameters
     def renameFiles(self, inSrcFile, inSequence):
@@ -264,7 +281,7 @@ class SimpleRenamer(QtWidgets.QMainWindow):
         # Case
         strCase = self.ui.comboCase.currentData()
 
-        if strCase == "U": # uppercase
+        if strCase == "U":  # uppercase
             strRenamedFile = strRenamedFile.upper()
         elif strCase == "L":
             strRenamedFile = strRenamedFile.lower()
@@ -290,9 +307,11 @@ class SimpleRenamer(QtWidgets.QMainWindow):
                 outDestFile = strRenamedFile + "_" + strSequence
         else:
             if strPosition == "S":
-                outDestFile = strSequence + "_" + strRenamedFile + '.' + strExtension[1]
+                outDestFile = strSequence + "_" + \
+                    strRenamedFile + '.' + strExtension[1]
             else:
-                outDestFile = strRenamedFile + "_" + strSequence + '.' + strExtension[1]
+                outDestFile = strRenamedFile + "_" + \
+                    strSequence + '.' + strExtension[1]
 
         return outDestFile
 
@@ -379,7 +398,8 @@ class SimpleRenamer(QtWidgets.QMainWindow):
     # Clear table
     def cleanList(self):
         global intSequence
-        self.ui.listFiles.selectionModel().model().removeRows(0, self.ui.listFiles.rowCount())
+        self.ui.listFiles.selectionModel().model().removeRows(
+            0, self.ui.listFiles.rowCount())
         intSequence = self.ui.spinSequence.value()
 
     # Rename files phisically
@@ -403,7 +423,8 @@ class SimpleRenamer(QtWidgets.QMainWindow):
 
     def itemAlreadyExists(self, inSrcFile):
 
-        itemList = self.ui.listFiles.findItems(inSrcFile, QtCore.Qt.MatchExactly)
+        itemList = self.ui.listFiles.findItems(
+            inSrcFile, QtCore.Qt.MatchExactly)
         if len(itemList) > 0:
             return True
         else:
@@ -411,6 +432,41 @@ class SimpleRenamer(QtWidgets.QMainWindow):
 
     def callOpenDialog(self):
         self.openFileNamesDialog()
+
+    def insertFileName(self, filename):
+
+        global intSequence
+
+        srcFile = filename.split("/")[-1]
+        srcFolder = filename.split(srcFile, 1)[0]
+        lenSplit = len(srcFolder.split("/")) - 2
+        srcFolderSplit = "../" + srcFolder.split("/")[lenSplit] + "/"
+
+        # debug only - print ("File " + srcFile)
+        # debug only - print ("Path " + srcFolder)
+
+        if self.itemAlreadyExists(srcFile) == False:
+
+            intRow = int(self.ui.listFiles.rowCount())
+            itemFolderSplit = QtWidgets.QTableWidgetItem()
+            itemFolderSplit.setText(srcFolderSplit)
+            itemFolderSplit.setToolTip(srcFolder)
+
+            self.ui.listFiles.insertRow(intRow)
+            self.ui.listFiles.setItem(intRow, 0, itemFolderSplit)
+
+            itemSourceFile = QtWidgets.QTableWidgetItem()
+            itemSourceFile.setText(srcFile)
+            self.ui.listFiles.setItem(intRow, 1, itemSourceFile)
+
+            # Call file renaming function (just name, not phisically)
+            strDestFile = self.renameFiles(srcFile, intSequence)
+
+            itemDestFile = QtWidgets.QTableWidgetItem()
+            itemDestFile.setText(strDestFile)
+            self.ui.listFiles.setItem(intRow, 2, itemDestFile)
+
+        intSequence += 1
 
     def openFileNamesDialog(self):
 
@@ -433,36 +489,7 @@ class SimpleRenamer(QtWidgets.QMainWindow):
 
             for filename in files:
                 #                filename = os.path.normpath(filename)
-                srcFile = filename.split("/")[-1]
-                srcFolder = filename.split(srcFile, 1)[0]
-                lenSplit = len(srcFolder.split("/")) - 2
-                srcFolderSplit = "../" + srcFolder.split("/")[lenSplit] + "/"
-
-                # debug only - print ("File " + srcFile)
-                # debug only - print ("Path " + srcFolder)
-
-                if self.itemAlreadyExists(srcFile) == False:
-
-                    intRow = int(self.ui.listFiles.rowCount())
-                    itemFolderSplit = QtWidgets.QTableWidgetItem()
-                    itemFolderSplit.setText(srcFolderSplit)
-                    itemFolderSplit.setToolTip(srcFolder)
-
-                    self.ui.listFiles.insertRow(intRow)
-                    self.ui.listFiles.setItem(intRow, 0, itemFolderSplit)
-
-                    itemSourceFile = QtWidgets.QTableWidgetItem()
-                    itemSourceFile.setText(srcFile)
-                    self.ui.listFiles.setItem(intRow, 1, itemSourceFile)
-
-                    # Call file renaming function (just name, not phisically)
-                    strDestFile = self.renameFiles(srcFile, intSequence)
-
-                    itemDestFile = QtWidgets.QTableWidgetItem()
-                    itemDestFile.setText(strDestFile)
-                    self.ui.listFiles.setItem(intRow, 2, itemDestFile)
-
-                intSequence += 1
+                self.insertFileName(filename)
 
     def location_on_the_screen(self):
         ag = QDesktopWidget().availableGeometry()
@@ -472,6 +499,37 @@ class SimpleRenamer(QtWidgets.QMainWindow):
         x = ag.width() - widget.width()
         y = ag.height() - sg.height() - widget.height()
         self.move(x, y)
+
+    # The following three methods set up dragging and dropping for the app
+    def dragEnterEvent(self, e):
+        if e.mimeData().hasUrls:
+            e.accept()
+        else:
+            e.ignore()
+
+    def dragMoveEvent(self, e):
+        if e.mimeData().hasUrls:
+            e.accept()
+        else:
+            e.ignore()
+
+    def dropEvent(self, e):
+        """
+        Drop files directly onto the widget
+        File locations are stored in fname
+        :param e:
+        :return:
+        """
+        if e.mimeData().hasUrls:
+            e.setDropAction(QtCore.Qt.CopyAction)
+            e.accept()
+            # Workaround for OSx dragging and dropping
+            for url in e.mimeData().urls():
+                fname = str(url.toLocalFile())
+                self.insertFileName(fname)
+                print(fname)
+        else:
+            e.ignore()
 
 
 intSequence = 0
