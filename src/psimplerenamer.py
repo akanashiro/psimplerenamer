@@ -72,40 +72,40 @@ class Ui_MainWindow(object):
         self.btnPushFile = QtWidgets.QPushButton(self.gridLayoutWidget)
         self.btnPushFile.setObjectName("btnPushFile")
         self.btnPushFile.setMaximumWidth(34)
-        self.btnPushFile.setIcon(QtGui.QIcon(
-            os.path.join(dirname, "icons/list-add.svg")))
+        #self.btnPushFile.setIcon(QtGui.QIcon(os.path.join(dirname, "icons/list-add.svg")))
+        self.btnPushFile.setIcon(QtGui.QIcon.fromTheme('list-add'))
         self.btnPushFile.setToolTip("Add files")
 
         # "Remove Files" Button
         self.btnPullFile = QtWidgets.QPushButton(self.centralwidget)
         self.btnPullFile.setObjectName("btnPullFile")
         self.btnPullFile.setMaximumWidth(34)
-        self.btnPullFile.setIcon(QtGui.QIcon(
-            os.path.join(dirname, "icons/list-remove.svg")))
+        #self.btnPullFile.setIcon(QtGui.QIcon(os.path.join(dirname, "icons/list-remove.svg")))
+        self.btnPullFile.setIcon(QtGui.QIcon.fromTheme('list-remove'))
         self.btnPullFile.setToolTip("Remove seleted file(s)")
 
         # "Move Up" Button
         self.btnMoveUp = QtWidgets.QPushButton(self.centralwidget)
         self.btnMoveUp.setObjectName("btnMoveUp")
         self.btnMoveUp.setMaximumWidth(34)
-        self.btnMoveUp.setIcon(QtGui.QIcon(
-            os.path.join(dirname, "icons/go-up.svg")))
+        #self.btnMoveUp.setIcon(QtGui.QIcon(os.path.join(dirname, "icons/go-up.svg")))
+        self.btnMoveUp.setIcon(QtGui.QIcon.fromTheme('go-up'))
         self.btnMoveUp.setToolTip("Move up selected file(s)")
 
         # "Move Down" Button
         self.btnMoveDown = QtWidgets.QPushButton(self.centralwidget)
         self.btnMoveDown.setObjectName("btnMoveDown")
         self.btnMoveDown.setMaximumWidth(34)
-        self.btnMoveDown.setIcon(QtGui.QIcon(
-            os.path.join(dirname, "icons/go-down.svg")))
+        #self.btnMoveDown.setIcon(QtGui.QIcon(os.path.join(dirname, "icons/go-down.svg")))
+        self.btnMoveDown.setIcon(QtGui.QIcon.fromTheme('go-down'))
         self.btnMoveDown.setToolTip("Move down selected file(s)")
 
         # "Clear all" Button
         self.btnClean = QtWidgets.QPushButton(self.centralwidget)
         self.btnClean.setObjectName("btnClean")
         self.btnClean.setMaximumWidth(34)
-        self.btnClean.setIcon(QtGui.QIcon(
-            os.path.join(dirname, "icons/edit-delete.svg")))
+        #self.btnClean.setIcon(QtGui.QIcon(os.path.join(dirname, "icons/edit-delete.svg")))
+        self.btnClean.setIcon(QtGui.QIcon.fromTheme('edit-delete'))
         self.btnClean.setToolTip("Clear all")
 
         # "New name" Label
