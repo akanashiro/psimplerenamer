@@ -15,7 +15,7 @@ What it does:
 - Postfix/sufix sequence option.
 - Uppercase/Lowecase/Preserve Case.
 - Add system date in YYYYMMDD format.
-- Drag & Drop (new!)
+- Drag & Drop
 
 It doesn't:
 - use regular expressions. 
@@ -23,8 +23,12 @@ It doesn't:
 To-do (next releases):
 - Possibility to use letters instead of numbers.
 
+Update:
+- Icons now follow current DE icon theme.
+
 How to use it:
-- If you have pyQT5 installed: download all the files from "src" and run "./psimplerenamer.py"
+- If you have pyQT5 installed: download the file named "psimplerenamer.py" and copy to /usr/local/bin.
+- Then run it from command line or Alt+F2 execute option (if you user Cinnamon/Xfce/Gnome) or from Krunner
 - ~~Added a deb package <a href='binary/psimplerenamer_0.2_all.deb'>psimplerenamer_0.2_all.deb</a>~~
 
 <img src="explanation.png">
