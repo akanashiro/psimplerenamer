@@ -249,16 +249,17 @@ class SimpleRenamer(QtWidgets.QMainWindow):
     def __init__(self):
         super(SimpleRenamer, self).__init__()
         self.ui = Ui_MainWindow()
-        self.setWindowIcon(QtGui.QIcon(
-            os.path.join(dirname, "icons/application.svg")))
+        #self.setWindowIcon(QtGui.QIcon(
+        #    os.path.join(dirname, "icons/application.svg")))
         self.ui.setupUi(self)
 
         # Drag & Drop
         self.setAcceptDrops(True)
 
         # Menu
-        exitAction = QAction(
-            QIcon(os.path.join(dirname, "icons/application-exit.svg")), '&Exit', self)
+        #exitAction = QAction(
+        #    QIcon(os.path.join(dirname, "icons/application-exit.svg")), '&Exit', self)
+        exitAction = QAction(QIcon.fromTheme('application-exit'), '&Exit', self)
 
         exitAction.setShortcut('Ctrl+Q')
         exitAction.setStatusTip('Exit application')
